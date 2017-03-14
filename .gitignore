@@ -27,8 +27,12 @@
 *.exe
 *.out
 *.app
+ukuleleFactory
 
 # Qt specific files
 *.pro.user
 *.txt
 
+ukuleleFactory
+# Makefile 
+Makefile
