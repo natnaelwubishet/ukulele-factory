@@ -6,10 +6,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    myUkulele = new ukuleleFactory();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete myUkuelele;
 }
 

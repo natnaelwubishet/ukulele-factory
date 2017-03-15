@@ -7,6 +7,8 @@
 #include <QFile>
 #include <QIODevice>
 #include <QTextStream>
+#include <list>
+#include "ukuleleFactory.h"
 namespace Ui {
 class MainWindow;
 }
@@ -18,7 +20,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    ukuleleFactory *myUkulele;
 private:
     Ui::MainWindow *ui;
 };

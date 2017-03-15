@@ -2,7 +2,7 @@
 Semester project for software engineering class.
 ## Requirements
 ### Qt
-	-Linux (Debian and Ubuntu flavors)
+	Linux (Debian and Ubuntu flavors)
 		`sudo apt-get install qt4-default libqt4-dev libqt4-core libqt4-gui`
 	Mac:
 		brew install qt
