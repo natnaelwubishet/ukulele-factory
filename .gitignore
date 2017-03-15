@@ -33,6 +33,14 @@ ukuleleFactory
 *.pro.user
 *.txt
 
-ukuleleFactory
 # Makefile 
 Makefile
+
+# vim specific files
+*.[a-z].un~
+*.[a-z]~
+[._]*.[a-z].un~
+[._]*.[a-z]~
+*.swp
+*.swp~
+#
