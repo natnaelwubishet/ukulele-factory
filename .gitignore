@@ -35,7 +35,6 @@ ukuleleFactory
 
 # Qt specific files
 *.pro.user
-*.txt
 
 # Makefile 
 Makefile
