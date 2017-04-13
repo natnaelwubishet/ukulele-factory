@@ -26,14 +26,22 @@ namespace Ui{
 
 class ukuleleFactory{
 	public:
-		ukuleleFactory();
-		~ukuleleFactory();
-		Body *makeBody(int, int, list<vector<int>>)const {};
-		Neck *makeNeck(int, int)const {};
-		Head *makeHead(int, int)const {};
-		_String *makeString(int) const {};
-		bool isValid();
-		void assemble(list<vector<int>>, list<vector<int>>
+
+        ukuleleFactory();
+
+        ~ukuleleFactory();
+
+        Body *makeBody(int, int, list<vector<int>>)const;
+
+        Neck *makeNeck(int, int)const;
+
+        Head *makeHead(int, int)const;
+
+        _String *makeString(int) const;
+
+        bool isValid();
+
+        void assemble(list<vector<int>>, list<vector<int>>
 				,list<vector<int>>, list<vector<int>>);
 	private:
 	        Body *b;

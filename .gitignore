@@ -1,3 +1,7 @@
+# IDE specific files
+.idea/
+.vscode/
+
 # Compiled Object files
 *.slo
 *.lo
@@ -43,4 +47,8 @@ Makefile
 [._]*.[a-z]~
 *.swp
 *.swp~
-#
+
+# Qt and CMake build files
+build-*
+cmake-*
+*.user
