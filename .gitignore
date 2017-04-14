@@ -34,7 +34,7 @@
 ukuleleFactory
 
 # Qt specific files
-*.pro.user
+*.pro.*
 
 # Makefile 
 Makefile
@@ -49,5 +49,16 @@ Makefile
 
 # Qt and CMake build files
 build-*
-cmake-*
 *.user
+
+### CMake ###
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+build/
+cmake-build-*/
