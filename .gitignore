@@ -1,3 +1,7 @@
+# IDE specific files
+.idea/
+.vscode/
+
 # Compiled Object files
 *.slo
 *.lo
@@ -30,8 +34,7 @@
 ukuleleFactory
 
 # Qt specific files
-*.pro.user
-*.txt
+*.pro.*
 
 # Makefile 
 Makefile
@@ -43,4 +46,19 @@ Makefile
 [._]*.[a-z]~
 *.swp
 *.swp~
-#
+
+# Qt and CMake build files
+build-*
+*.user
+
+### CMake ###
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+build/
+cmake-build-*/
