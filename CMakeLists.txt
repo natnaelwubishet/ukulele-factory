@@ -34,7 +34,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 set(SOURCE_FILES *.cpp)
-set (EXTRA_LIBS Qt5Widgets)
+set (EXTRA_LIBS Qt5Widgets Qt5Core QtTest)
 
 # Qt coniguration
 set(CMAKE_AUTOMOC ON)
@@ -42,7 +42,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH "E:/qt install/5.8/msvc2013_64/lib/cmake/Qt5")
-FIND_PACKAGE(Qt5 COMPONENTS Widgets Core)
+FIND_PACKAGE(Qt5 COMPONENTS Widgets Core Test)
 #if (Qt5_FOUND)
 #else()
 #    if (WIN32)
@@ -69,14 +69,15 @@ include_directories(${INCLUDE_DIRECTORIES} ${QT_INCLUDE_DIR})
 #        )
 
 # project source files
-# TODO: Fix SOURCE_FILES problem!
 set(SOURCE_FILES ${UKULELE_SOURCE_DIR}/main.cpp
-                ${UKULELE_SOURCE_DIR}/mainwindow.cpp)
+                ${UKULELE_SOURCE_DIR}/mainwindow.cpp includes/ukuleleSuppliers.h)
 
 
 # TODO: fix qt_wrap_ui problems, Probable cause: Usage
 #qt_wrap_ui(UKULELE_UI_FILES
-#        ${UKULELE_SOURCE_DIR}/ukulele_main.ui)
+#        ${UKULELE_SOURCE_DIR}/ukulele_main.ui
+#        UKULELE_UI_H
+#        UKULELE_UI_CPP)
 
-add_executable(ukuleleFactory $(SOURCE_FILES) includes/ukuleleFactoryConfig.h)
+add_executable(ukuleleFactory ${SOURCE_FILES} includes/ukuleleFactoryConfig.h)
 target_link_libraries(ukuleleFactory libs)
