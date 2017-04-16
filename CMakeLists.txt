@@ -6,6 +6,9 @@ project(ukuleleFactory)
 set (ukuleleFactory_VERSION_MAJOR 1)
 set (ukuleleFactory_VERSION_MINOR 0)
 
+# cpp version
+set(CMAKE_CXX_COMPILER_VERSION 11)
+
 # set project directories
 set(UKULELE_SOURCE_DIR "${PROJECT_SOURCE_DIR}/src")
 set(UKULELE_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/includes")
@@ -27,6 +30,7 @@ configure_file (
 # add the binary tree to the search path for include files
 # so that we will find ukuleleFactoryConfig.h
 include_directories("${PROJECT_BINARY_DIR}")
+include_directories(${UKULELE_LIBS_DIR})
 add_subdirectory (libs)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -42,9 +46,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH "E:/qt install/5.8/msvc2013_64/lib/cmake/Qt5")
-FIND_PACKAGE(Qt5 COMPONENTS Widgets Core Test)
+FIND_PACKAGE(Qt5 COMPONENTS Widgets Core Test Gui)
 #if (Qt5_FOUND)
-#else()
+#else()return new _string(len);
 #    if (WIN32)
 #        message("Couldn't find Qt in the default location. Go to qt installation folder.")
 #        set(POWERSHELL_CMD ./get_module_dir.ps1)
@@ -56,7 +60,6 @@ FIND_PACKAGE(Qt5 COMPONENTS Widgets Core Test)
 #    endif()
 #endif()
 include_directories(${INCLUDE_DIRECTORIES} ${QT_INCLUDE_DIR})
-# include(${QT_USE_FILE})
 
 
 # add the install targets
@@ -69,15 +72,14 @@ include_directories(${INCLUDE_DIRECTORIES} ${QT_INCLUDE_DIR})
 #        )
 
 # project source files
-set(SOURCE_FILES ${UKULELE_SOURCE_DIR}/main.cpp
-                ${UKULELE_SOURCE_DIR}/mainwindow.cpp includes/ukuleleSuppliers.h)
+set(SOURCE_FILES ${UKULELE_SOURCE_DIR}/main.cpp)
 
+# setup GUI library
+qt5_wrap_ui(UKULELE_UI_FILES ${UKULELE_SOURCE_DIR}/ukulele_main.ui)
 
-# TODO: fix qt_wrap_ui problems, Probable cause: Usage
-#qt_wrap_ui(UKULELE_UI_FILES
-#        ${UKULELE_SOURCE_DIR}/ukulele_main.ui
-#        UKULELE_UI_H
-#        UKULELE_UI_CPP)
+add_library(main_window_ui ${UKULELE_SOURCE_DIR}/mainwindow.cpp ${UKULELE_UI_FILES})
 
-add_executable(ukuleleFactory ${SOURCE_FILES} includes/ukuleleFactoryConfig.h)
-target_link_libraries(ukuleleFactory libs)
+target_link_libraries(main_window_ui Qt5::Widgets)
+
+add_executable(ukuleleFactory ${SOURCE_FILES} includes/ukuleleFactoryConfig.h ${UI_HEADERS})
+target_link_libraries(ukuleleFactory libs main_window_ui Qt5::Widgets)
