@@ -1,10 +1,25 @@
 #include "../includes/ukuleleFactory.h"
 
+// ukulele production line
+ukuleleProductionLine::ukuleleProductionLine(){
+    // private constructor
+}
+
+ukulele ukuleleProductionLine::makeUkulele(){
+    // create a ukulele
+    // ukulele* _ukuleleInstance = new ukulele();
+
+    // TODO: add ukulele components specs
+    // FIXME: fix linter errors
+    // ukulele spec
+    // vector<vector<int>> bodySpec;
+}
+
 // empty class constructor
-ukuleleFactory::ukuleleFactory(){};
+ukulele::ukulele(){};
 
 // class destructor
-~ukuleleFactory::ukuleleFactory(){
+~ukulele::ukulele(){
 	delete b;
 	delete n;
 	delete h;
@@ -12,26 +27,26 @@ ukuleleFactory::ukuleleFactory(){};
 };
 
 // body factory
-Body *ukuleleFactory::makeBody(int r1, int r2, list<vector<int>> centers){
+Body *ukulele::makeBody(int r1, int r2, vector<vector<int>> centers){
 	return new Body(r1, r2, centers[0], centers[1]);
 };
 
-Neck *ukuleleFactory::makeNeck(int w, int h, vector<int> pos){
-	return new Neck(w, h, pos);
+Neck *ukulele::makeNeck(int w, int h, vector<int> pos1, vector<int> pos2){
+	return new Neck(w, h, pos1, pos2);
 };
 
-Head *ukuleleFactory::makeHead(int w, int h, vector<int> pos){
+Head *ukulele::makeHead(int w, int h, vector<int> pos){
 	return new Head(w, h, pos);
 };
 
-_String *ukuleleFactory::makeString(int len){
-	return new _String(len);
+_string *ukulele::makeString(int len){
+	return new _string(len);
 };
 
 
 
 /*
- * ukuleleFactory assemble function
+ * ukulele assemble function
  * params: a list of values representing the properties of
  * each component.
  * body param: body dimensions
@@ -41,23 +56,23 @@ _String *ukuleleFactory::makeString(int len){
  * 
  * */
 
-bool ukuleleFactory::assemble(list<vector<int>> bodyParams, 
-			      list<vector<int>> neckParams,
-			      list<vector<int>> headParams,
-			      list<vector<int>> stringParams){
+void assemble(ukulele* thisUkulele, vector<vector<int>> bodyParams,
+			      vector<vector<int>> neckParams,
+			      vector<vector<int>> headParams,
+			      vector<vector<int>> stringParams){
 	// create ukulele components
-	b = this->makeBody(bodyParams[0][0], bodyParams[0][1], 
+	b = thisUkulele->makeBody(bodyParams[0][0], bodyParams[0][1],
 			  bodyParams[1], bodyParams[2]);
-	n = this->makeNeck(neckParams[0][0], neckParams[0][1],
+	n = thisUkulele->makeNeck(neckParams[0][0], neckParams[0][1],
 			   neckParams[1]);
-	h = this->makeHead(headParams[0][0], headParams[0][0],
+	h = thisUkulele->makeHead(headParams[0][0], headParams[0][0],
 			   headParams[1]);
-	s = this->makeString(stringParams[0], stringParams[1][0]);
+	s = thisUkulele->makeString(stringParams[0], stringParams[1][0]);
 
 	// set properties of the ukulele components
 };
 
-bool ukuleleFactory::isValid(){
+bool ukulele::isValid(){
 	// validate each component and return response
 	this->valid = (this->b->validate()) &&
 		      (this->n->validate()) &&
@@ -155,7 +170,7 @@ bool Head::validate(){
 /*
  * String constructor
  * */
-_String::_String(int len, int num){
+_string::_string(int len){
 	for (int count = 0; count < this->strings; ++count){
 		this->__strings.push_back(
 				new _cylinder(this->thickness, len)
@@ -167,7 +182,7 @@ _String::_String(int len, int num){
  * String component validation method
  * */
 
-bool _String::validate(){
+bool _string::validate(){
 	int valid = 0;
 	// condition 1: the strings must have the correct multiplicity, i.e. there
 	// should be four
