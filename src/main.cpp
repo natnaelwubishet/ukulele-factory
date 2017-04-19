@@ -6,7 +6,7 @@
  * March 2017
  */
 
-#include "../includes/mainwindow.h"
+#include "ui/mainwindow.h"
 #include <QApplication>
 #include <cstdio>
 #include "../includes/ukuleleFactoryConfig.h"

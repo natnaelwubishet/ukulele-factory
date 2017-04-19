@@ -1,4 +1,4 @@
-#include "../includes/mainwindow.h"
+#include "mainwindow.h"
 #include "ui_ukulele_main.h"
 
 MainWindow::MainWindow(QWidget *parent) :
