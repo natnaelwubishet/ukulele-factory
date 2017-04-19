@@ -13,9 +13,9 @@ set(UKULELE_LIBRARY_DIR "${PROJECT_SOURCE_DIR}/libs")
 set(UKULELE_TEST_DIR "${PROJECT_SOURCE_DIR}/tests")
 
 # Avoid in-source builds
-if ("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
-    message(FATAL_ERROR "Warning: In-source build! Aborting. Call cmake .. from a build folder.")
-endif()
+#if ("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
+#    message(FATAL_ERROR "Warning: In-source build! Aborting. Call cmake .. from a build folder.")
+#endif("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
 
 # configure a header file to pass some of the CMake settings
 # to the source code
@@ -33,51 +33,48 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # compiler options
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-set(SOURCE_FILES *.cpp)
-set (EXTRA_LIBS Qt5Widgets Qt5Core QtTest)
+# set (EXTRA_LIBS Qt5Widgets Qt5Core QtTest)
 
 # Qt coniguration
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_PREFIX_PATH "E:/qt install/5.8/msvc2013_64/lib/cmake/Qt5")
-FIND_PACKAGE(Qt5 COMPONENTS Widgets Core Test)
-#if (Qt5_FOUND)
-#else()
-#    if (WIN32)
-#        message("Couldn't find Qt in the default location. Go to qt installation folder.")
-#        set(POWERSHELL_CMD ./get_module_dir.ps1)
-# TODO: Fix execution of powershell from cmake
-#        execute_process(
-#                COMMAND powershell ${POWERSHELL_CMD}
-#        )
-#        FIND_PACKAGE(Qt5 COMPONENTS Widgets Core)
-#    endif()
-#endif()
-include_directories(${INCLUDE_DIRECTORIES} ${QT_INCLUDE_DIR})
-# include(${QT_USE_FILE})
+FIND_PACKAGE(Qt5 COMPONENTS Widgets Core Test Gui)
+if (NOT Qt5_FOUND)
+    message(FATAL_ERROR "Couldn't find an installed version of Qt
+     or qt is not in the default directory.")
+endif(NOT Qt5_FOUND)
 
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+add_definitions(${Qt5Widgets_DEFINITIONS})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
-# add the install targets
-# install (TARGETS ukuleleFactory DESTINATION bin)
-# install (FILES "${PROJECT_BINARY_DIR}/ukuleleFactoryConfig.h"
-#        DESTINATION include)
-
-#qt_wrap_ui(UKULELE_FACTORY_UI_H
-#           ${PROJECT_SOURCE_DIR}/mainwindow.ui
-#        )
+if(WIN32)
+    # Check if we are on Windows
+    if(MSVC)
+        # Check if we are using the Visual Studio compiler
+        set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE YES LINK_FLAGS "/ENTRY:mainCRTStartup" )
+    elseif(CMAKE_COMPILER_IS_GNUCXX)
+        # SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows") # Not tested
+    else()
+        message(SEND_ERROR "You are using an unsupported Windows compiler! (Not MSVC or GCC)")
+endif(MSVC)
+elseif(APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE YES )
+elseif(UNIX) # Nothing special required
+else()
+    message(SEND_ERROR "You are on an unsupported platform! (Not Win32, Mac OS X or Unix)")
+endif(WIN32)
 
 # project source files
 set(SOURCE_FILES ${UKULELE_SOURCE_DIR}/main.cpp
-                ${UKULELE_SOURCE_DIR}/mainwindow.cpp includes/ukuleleSuppliers.h)
+                 ${UKULELE_SOURCE_DIR}/ui/mainwindow.cpp
+                 #${UKULELE_LIBRARY_DIR}/ukuleleFactory.cpp ${UKULELE_LIBRARY_DIR}/ukuleleSuppliers.cpp
+            )
 
+# setup GUI library
+qt_wrap_ui(UKULELE_UI_FILES ${UKULELE_SOURCE_DIR}/ukulele_main.ui)
 
-# TODO: fix qt_wrap_ui problems, Probable cause: Usage
-#qt_wrap_ui(UKULELE_UI_FILES
-#        ${UKULELE_SOURCE_DIR}/ukulele_main.ui
-#        UKULELE_UI_H
-#        UKULELE_UI_CPP)
-
-add_executable(ukuleleFactory ${SOURCE_FILES} includes/ukuleleFactoryConfig.h)
-target_link_libraries(ukuleleFactory libs)
+add_executable(ukuleleFactory ${SOURCE_FILES} includes/ukuleleFactoryConfig.h ${UKULELE_UI_FILES} ${MOC_SRCS})
+target_link_libraries(ukuleleFactory ukuleleLib ${QT_LIBRARIES})
