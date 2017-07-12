@@ -62,3 +62,13 @@ compile_commands.json
 CTestTestfile.cmake
 build/
 cmake-build-*/
+
+### CodeBlocks ###
+# specific to CodeBlocks IDE
+*.layout
+*.depend
+*.cbp
+
+# generated directories
+bin/
+obj/
