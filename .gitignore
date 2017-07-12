@@ -63,5 +63,17 @@ CTestTestfile.cmake
 build/
 cmake-build-*/
 
+<<<<<<< HEAD
 ### doxygen ###
 doc/
+=======
+### CodeBlocks ###
+# specific to CodeBlocks IDE
+*.layout
+*.depend
+*.cbp
+
+# generated directories
+bin/
+obj/
+>>>>>>> development
